@@ -1,3 +1,4 @@
 build*/
+corpus/fuzz_llex/
 releases/
 tmp/
