@@ -18,6 +18,7 @@
 FILE* LLEX_HELPER_OUTPUT_FILE = NULL;
 
 int iter_cnt = 0;
+int MAX_ITER = 10;
 
 typedef struct LoadS {
 	const char *s;
@@ -79,7 +80,7 @@ static void protected_lex(lua_State *L, void *ud)
 
 void llex_fuzz(const uint8_t *data, size_t size)
 {
-	assert(iter_cnt<10);
+	assert(iter_cnt<MAX_ITER);
 	llex_fuzz_custom(data, size, protected_lex);
 	iter_cnt ++;
 }
