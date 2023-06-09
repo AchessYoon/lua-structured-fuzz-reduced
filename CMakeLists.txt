@@ -15,9 +15,7 @@ if(NOT FUZZ_ENGINE AND NOT "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 set(CMAKE_BUILD_TYPE Debug)
-if (NOT COVERAGE AND NOT FUZZ_ENGINE)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address,undefined,fuzzer -fno-sanitize=alignment -fno-omit-frame-pointer")
-endif()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address,undefined,fuzzer -fno-sanitize=alignment -fno-omit-frame-pointer")
 
 
 enable_language(CXX)
