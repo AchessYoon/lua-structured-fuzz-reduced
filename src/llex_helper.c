@@ -13,8 +13,11 @@
 #include <ldo.h>
 #include <lfunc.h>
 #include <ltable.h>
+#include <assert.h>
 
 FILE* LLEX_HELPER_OUTPUT_FILE = NULL;
+
+int iter_cnt = 0;
 
 typedef struct LoadS {
 	const char *s;
@@ -76,7 +79,9 @@ static void protected_lex(lua_State *L, void *ud)
 
 void llex_fuzz(const uint8_t *data, size_t size)
 {
+	assert(iter_cnt<10);
 	llex_fuzz_custom(data, size, protected_lex);
+	iter_cnt ++;
 }
 
 void llex_fuzz_custom(const uint8_t *data, size_t size, Pfunc func)
