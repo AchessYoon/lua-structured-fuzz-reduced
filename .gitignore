@@ -1,4 +1,5 @@
 build*/
 corpus/fuzz_llex/
+corpus/result/
 releases/
 tmp/
