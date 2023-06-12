@@ -4,12 +4,13 @@ cnt=$(ls ./fuzz_llex | wc -l)
 echo $cnt files
 
 echo "" > out.txt
-for filename in ./fuzz_llex/* ; do
+for filename in ./result/fuzz_llex_0610_001/* ; do
     # result=$(echo "$filename")
 
     # ./itersample.sh
     # lua $filename
-    luajit -b $filename luajit.out
+    # luajit -b $filename luajit.out
+    env GOPHER_TARGET=$filename GOPATH="/home/hsy6119/go" go run run_lua.go
     result=$?
 
     # stdout=$( ./itersample.sh )
