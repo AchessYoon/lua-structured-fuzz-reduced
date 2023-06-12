@@ -10,7 +10,8 @@ for filename in ./result/fuzz_llex_0610_001/* ; do
     # ./itersample.sh
     # lua $filename
     # luajit -b $filename luajit.out
-    env GOPHER_TARGET=$filename GOPATH="/home/hsy6119/go" go run run_lua.go
+    # env GOPHER_TARGET=$filename GOPATH="/home/hsy6119/go" go run run_lua.go
+    ./lua2c/clua -c $filename
     result=$?
 
     # stdout=$( ./itersample.sh )
