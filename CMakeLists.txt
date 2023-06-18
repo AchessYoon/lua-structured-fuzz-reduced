@@ -3,6 +3,8 @@ cmake_minimum_required ( VERSION 2.8 )
 cmake_policy(SET CMP0022 NEW)
 
 include(${CMAKE_CURRENT_LIST_DIR}/deps/lua-5.1.cmake)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/lua-5.1 ${LUA_INCLUDE_DIR})
+
 
 add_library( luafuzzhelper src/llex_helper.c )
 target_link_libraries( luafuzzhelper PRIVATE liblua )
@@ -29,7 +31,7 @@ endif()
 
 function(add_fuzz name dict corpus)
   add_executable(${name} "${name}.cc")
-  target_link_libraries(${name} liblua luafuzzhelper pthread ${FUZZ_ENGINE})
+  target_link_libraries(${name} liblua luafuzzhelper ${LUA_LIBRARIES} pthread ${FUZZ_ENGINE})
   add_custom_target(${name}_run COMMAND ${CMAKE_COMMAND} -E env "ASAN_OPTIONS=allocator_may_return_null=1" "${CMAKE_CURRENT_BINARY_DIR}/${name}" -only_ascii=1 -dict="${dict}" "${corpus}" DEPENDS ${name})
 endfunction()
 
