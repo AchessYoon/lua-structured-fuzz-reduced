@@ -2,6 +2,7 @@ project ( fuzzing-lua C )
 cmake_minimum_required ( VERSION 2.8 )
 cmake_policy(SET CMP0022 NEW)
 
+find_package(Lua51 REQUIRED)
 include(${CMAKE_CURRENT_LIST_DIR}/deps/lua-5.1.cmake)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/lua-5.1 ${LUA_INCLUDE_DIR})
 
