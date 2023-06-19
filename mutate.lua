@@ -109,9 +109,3 @@ if file then
 else
     print("error:", err)
 end
-
-    -- file:write("a=true and 1 or 0")
-    file:close()
-else
-    print("error:", err)
-end
