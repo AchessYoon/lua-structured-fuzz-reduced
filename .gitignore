@@ -1,6 +1,7 @@
 build*/
 corpus/fuzz_llex/
 corpus/result/
+corpus/timestamp.txt
 releases/
 tmp/
 .vscode/
