@@ -35,7 +35,7 @@ function table.concatnate(t1, t2)
     return t1
 end
 
-local function get_tgt_nodes(node, path)
+local function get_tgt_exprs(node, path)
     if node['tag'] == "Number" then
         return (node[1] == simple_num[1]) and {{path, "expr"}} or {}
     end
@@ -45,7 +45,34 @@ local function get_tgt_nodes(node, path)
         local child_path = {}
         table.shallow_copy(child_path, path)
         table.insert(child_path, child_idx)
-        local child_result = get_tgt_nodes(child, child_path)
+        local child_result = get_tgt_exprs(child, child_path)
+        acc = table.concatnate(acc, child_result)
+    end end
+
+    return acc
+end
+
+local function get_tgt_stmts(node, path)
+    local tgt_path = {}
+    table.shallow_copy(tgt_path, path)
+
+    if path == {} then
+        table.insert(tgt_path, #node + 1)
+        return {tgt_path}
+    end
+
+    if node["tag"] == "If" or node["tag"] == "While" then
+        table.insert(tgt_path, 2)
+        table.insert(tgt_path, #node[2] + 1)
+        return {tgt_path}
+    end
+
+    local acc = {}
+    if node[#node] then for child_idx, child in ipairs(node) do
+        local child_path = {}
+        table.shallow_copy(child_path, path)
+        table.insert(child_path, child_idx)
+        local child_result = get_tgt_stmts(child, child_path)
         acc = table.concatnate(acc, child_result)
     end end
 
@@ -55,6 +82,7 @@ end
 local function mut_by_path(root, path, new_node)
     local current = root
     for _, child_idx in ipairs(path) do
+        if current[child_idx] == nil then current[child_idx] = {} end
         current = current[child_idx]
     end
     table.shallow_copy(current, new_node)
@@ -64,7 +92,6 @@ local ast = mlc:src_to_ast(src_content)
 
 
 -------------------------------------------------
-
 function get_nil()
     return {tag="Nil"}
 end
@@ -102,11 +129,27 @@ end
 
 local expr_gens = {get_nil, get_dots, get_true, get_false, get_number, get_string, get_table, get_op}
 -------------------------------------------------
+function get_if()
+    return {tag="If", simple_num, {}, simple_num, {}, {}}
+end
 
-local tgt_candidates = get_tgt_nodes(ast, {})
-local tgt_path = tgt_candidates[random(#tgt_candidates)][1]
-local rand_basic_expr = expr_gens[random(#expr_gens)]()
-mut_by_path(ast, tgt_path, rand_basic_expr)
+function get_while()
+    return {tag="While", simple_num, {}}
+end
+
+local stmt_gens = {get_if, get_while}
+-------------------------------------------------
+
+-- local tgt_candidates = get_tgt_exprs(ast, {})
+-- local tgt_path = tgt_candidates[random(#tgt_candidates)][1]
+-- local rand_basic_expr = expr_gens[random(#expr_gens)]()
+-- mut_by_path(ast, tgt_path, rand_basic_expr)
+
+
+local tgt_candidates = get_tgt_stmts(ast, {})
+local tgt_path = tgt_candidates[random(#tgt_candidates)]
+local rand_basic_stmt = stmt_gens[random(#stmt_gens)]()
+mut_by_path(ast, tgt_path, rand_basic_stmt)
 
 
 file,err = io.open("mutated_script.lua",'w')
