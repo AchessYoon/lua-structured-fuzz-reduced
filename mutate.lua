@@ -1,12 +1,19 @@
 local mlc = require 'metalua.compiler'.new()
-math.randomseed(os.time())
-
 file = io.open("./mut_src.lua", "rb")
 if not file then return nil end
 src_content = file:read "*a"
 file:close()
 
 local simple_num = {tag="Number", 42}
+
+local rand_cnt = 0
+function random(n)
+    math.randomseed(rand_cnt)
+    local rand_add = math.random(1000)
+    math.randomseed(os.time() + rand_add)
+    rand_cnt = rand_cnt + 1 % 1000
+    return math.random(n)
+end
 
 function table.clear(t)
     for k,_ in pairs(t) do
@@ -75,7 +82,7 @@ function get_false()
 end
 
 function get_number()
-    return {tag="Number", math.random(-100, 100)}
+    return {tag="Number", random(-100, 100)}
 end
 
 function get_string()
@@ -89,7 +96,7 @@ end
 
 function get_op()
     local op_table = {'add', 'sub', 'mul', 'div', 'mod', 'pow', 'concat', 'eq', 'lt' , 'le' , 'and', 'or', 'not', 'len'}
-    local op_id = op_table[math.random(#op_table)]
+    local op_id = op_table[random(#op_table)]
     return {tag="Op", op_id, simple_num, simple_num}
 end
 
@@ -97,8 +104,8 @@ local expr_gens = {get_nil, get_dots, get_true, get_false, get_number, get_strin
 -------------------------------------------------
 
 local tgt_candidates = get_tgt_nodes(ast, {})
-local tgt_path = tgt_candidates[math.random(#tgt_candidates)][1]
-local rand_basic_expr = expr_gens[math.random(#expr_gens)]()
+local tgt_path = tgt_candidates[random(#tgt_candidates)][1]
+local rand_basic_expr = expr_gens[random(#expr_gens)]()
 mut_by_path(ast, tgt_path, rand_basic_expr)
 
 
