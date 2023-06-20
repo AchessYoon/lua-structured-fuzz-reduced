@@ -1,7 +1,6 @@
 build*/
-corpus/fuzz_llex/
-corpus/result/
-corpus/timestamp.txt
+corpus/
+!corpus/fuzz_string/
 releases/
 tmp/
 .vscode/
