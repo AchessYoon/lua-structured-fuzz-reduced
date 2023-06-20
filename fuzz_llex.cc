@@ -12,7 +12,7 @@ using namespace std;
 #define FUZZ_ENTRY LLVMFuzzerTestOneInput
 #endif
 
-bool LIMIT_ITER = true;
+bool LIMIT_ITER = false;
 int MAX_ITER = 10;
 int iter_cnt = 0;
 
