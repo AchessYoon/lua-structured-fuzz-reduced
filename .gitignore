@@ -1,5 +1,6 @@
 build*/
 corpus/fuzz_llex/
+corpus/fuzz_lparse*/
 corpus/result/
 corpus/timestamp.txt
 releases/
