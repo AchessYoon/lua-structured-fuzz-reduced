@@ -1,6 +1,7 @@
 build*/
 corpus/
 !corpus/fuzz_string/
+diff_testing/result/
 releases/
 tmp/
 .vscode/
