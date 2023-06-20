@@ -7,8 +7,9 @@
 #include <lua5.1/lua.hpp>
 using namespace std;
 
+bool LIMIT_ITER = true;
+int MAX_ITER = 10;
 int iter_cnt = 0;
-int MAX_ITER = 100;
 
 int is_valid_luaprogram(const char* input, size_t size){
     lua_State* L = luaL_newstate();
@@ -31,7 +32,7 @@ int is_valid_luaprogram(const char* input, size_t size){
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 {
-	iter_cnt ++;
+	if(LIMIT_ITER) assert(iter_cnt<MAX_ITER); iter_cnt ++;
 
 	char* input = (char*)malloc(size+1);
 	if(input == NULL) return 1;

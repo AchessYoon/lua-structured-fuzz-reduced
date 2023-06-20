@@ -8,8 +8,9 @@
 #include "llex_helper.h"
 using namespace std;
 
+bool LIMIT_ITER = true;
+int MAX_ITER = 10;
 int iter_cnt = 0;
-int MAX_ITER = 100;
 
 extern "C" size_t
 LLVMFuzzerMutate(uint8_t *Data, size_t Size, size_t MaxSize);
@@ -35,7 +36,7 @@ int is_valid_luaprogram(const char* input, size_t size){
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 {
-	iter_cnt ++;
+	if(LIMIT_ITER) assert(iter_cnt<MAX_ITER); iter_cnt ++;
 
 	char* input = (char*)malloc(size+1);
 	if(input == NULL) return 1;
