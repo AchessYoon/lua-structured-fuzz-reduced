@@ -3,8 +3,8 @@
 #include <string.h>
 #include <iostream>
 #include <assert.h>
-#include <lua.hpp>
-
+// #include <lua.hpp>
+#include <lua5.1/lua.hpp>
 using namespace std;
 
 int iter_cnt = 0;
@@ -32,14 +32,14 @@ int is_valid_luaprogram(const char* input, size_t size){
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 {
 	iter_cnt ++;
-	
+
 	char* input = (char*)malloc(size+1);
 	if(input == NULL) return 1;
 	memcpy(input, data, size);
 	input[size] = '\0';
 
 	int result = is_valid_luaprogram(input, size);
-	
+
 	std::string result_cmd = "echo " + to_string(result) + " >> results.txt";
 	system(result_cmd.c_str());
 

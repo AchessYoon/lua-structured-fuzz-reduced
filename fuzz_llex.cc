@@ -35,7 +35,7 @@ extern "C" size_t LLVMFuzzerCustomMutator(uint8_t *Data, size_t Size, size_t Max
     char* code = (char *) malloc(Size+1);
     memcpy(code, Data, Size);
     code[Size] = '\0';
-    
+
     // Call function Mutate(code, Seed) in lua
     lua_getglobal(L, "Mutate");
     lua_pushstring(L, code);
@@ -53,7 +53,7 @@ extern "C" size_t LLVMFuzzerCustomMutator(uint8_t *Data, size_t Size, size_t Max
 	// system(fileSize_cmd.c_str());
 
     memcpy(Data, mutant, fileSize);
-    
+
     free(code);
     lua_close(L);
 
@@ -61,7 +61,7 @@ extern "C" size_t LLVMFuzzerCustomMutator(uint8_t *Data, size_t Size, size_t Max
     // fileSize = LLVMFuzzerMutate(Data, fileSize, MaxSize);
 
     return fileSize;
-}   
+}
 
 
 // int writeFile(uint8_t *data, size_t dataSize) {
