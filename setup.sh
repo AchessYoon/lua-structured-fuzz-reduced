@@ -8,3 +8,5 @@ cd ..
 cp -r metalua.setup/metalua build.fuzz/metalua
 cp metalua.setup/metalua.lua build.fuzz/metalua.lua
 cp metalua.setup/checks.lua build.fuzz/checks.lua
+
+./clear_corpus.sh
