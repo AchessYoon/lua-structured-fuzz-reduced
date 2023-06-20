@@ -42,3 +42,4 @@ endfunction()
 
 add_fuzz_simple(fuzz_llex lua.dict)
 add_fuzz_simple(fuzz_lparse lua.dict)
+add_fuzz_simple(fuzz_lparse_custom_mutation lua.dict)
